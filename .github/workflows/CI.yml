@@ -166,6 +166,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'release' && github.event.action == 'published'
     needs: [linux, windows, macos, sdist, test]
+    environment:
+      name: publishing
+      url: https://pypi.org/p/nrpys
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/download-artifact@v8
         with:
@@ -173,9 +179,7 @@ jobs:
           merge-multiple: true
           path: dist
       - name: Publish to PyPI
-        uses: PyO3/maturin-action@v1
-        env:
-          MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          command: upload
-          args: --skip-existing dist/*
+          packages-dir: dist/
+          skip-existing: true
