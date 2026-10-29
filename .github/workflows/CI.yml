@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x86_64, x86, aarch64, armv7, s390x, ppc64le]
+        target: [x86_64, aarch64, armv7, s390x, ppc64le]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -30,8 +30,7 @@ jobs:
           target: ${{ matrix.target }}
           # abi3-py311 produces one wheel for CPython 3.11 and newer.
           args: --release --locked --out dist --interpreter python3.11
-          # Avoid CentOS 7 archive repositories when installing x86 libatomic.
-          manylinux: ${{ matrix.target == 'x86' && '2_28' || '2014' }}
+          manylinux: '2014'
       - name: Upload wheels
         uses: actions/upload-artifact@v7
         with:
@@ -44,7 +43,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x64, x86]
+        target: [x64]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
