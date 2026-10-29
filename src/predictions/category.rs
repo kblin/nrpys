@@ -4,7 +4,8 @@
 use nrps_rs::predictors::predictions::PredictionCategory;
 use pyo3::prelude::*;
 
-#[pyclass(name = "PredictionCategory", module = "nrpys")]
+#[pyclass(name = "PredictionCategory", module = "nrpys", eq, eq_int)]
+#[derive(PartialEq)]
 pub enum PyPredictionCategory {
     ThreeClusterV3,
     LargeClusterV3,

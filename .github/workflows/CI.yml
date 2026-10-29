@@ -145,6 +145,15 @@ jobs:
           config.fungal = True
           assert config.fungal is True
           assert config.categories
+          assert config.categories == config.categories
+          category = nrpys.PredictionCategory.ThreeClusterV3
+          assert category == 0
+          assert category != nrpys.PredictionCategory.SingleV3
+          domain = nrpys.ADomain("domain", "A" * 34)
+          assert domain.name == "domain"
+          assert domain.aa34 == "A" * 34
+          assert domain.get_best(category) == []
+          assert domain.get_stachelhaus() == []
           try:
               nrpys.run(config, ["domain"], [])
           except ValueError as error:

@@ -44,7 +44,7 @@ fn run(
 }
 
 #[pymodule]
-fn nrpys(_py: Python, m: &PyModule) -> PyResult<()> {
+fn nrpys(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<config::PyConfig>()?;
     m.add_class::<predictions::PyADomain>()?;
     m.add_class::<predictions::PyPredictionCategory>()?;
